@@ -335,7 +335,10 @@ Video
 
 https://github.com/user-attachments/assets/eba85d3c-5221-4138-af02-27a7685219d3
 
+-----------------------------------------
+OpenRouter Usage (very cheap)
 
+<img width="1917" height="742" alt="image" src="https://github.com/user-attachments/assets/843758d0-25ea-4333-8343-f78d033cc95c" />
 
 
 
