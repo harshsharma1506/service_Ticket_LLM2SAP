@@ -288,16 +288,6 @@ This system demonstrates:
 
 ---
 
-# 🚀 Future Enhancements
-
-* Async AI enrichment (background processing)
-* Workflow integration (incident lifecycle)
-* Fiori UI instead of Streamlit
-* Vector search for similar incidents
-* AI auto-resolution suggestions
-
----
-
 # 🧠 Learning Outcome
 
 After understanding this demo, you will know:
@@ -317,20 +307,26 @@ This project is a **bridge between AI and enterprise SAP systems**, showing how:
 
 ---
 
+
 ## Snapshots of the application 
+
+Start the application by rough input 
 
 <img width="1821" height="494" alt="image" src="https://github.com/user-attachments/assets/3f0e039c-6893-438a-bc9d-e582036d61b5" />
 
 -----------------------------------
+LLM categorizes based on prompt 
 
 <img width="1816" height="807" alt="image" src="https://github.com/user-attachments/assets/d3043fde-bb6e-4bf5-8f7c-c97d91bc5cc7" />
 
 ------------------------------------
+Further output 
 <img width="1835" height="807" alt="image" src="https://github.com/user-attachments/assets/659ede7b-2b1b-4e36-9677-58e39b27a34c" />
 
 -------------------------------------
 <img width="1588" height="842" alt="image" src="https://github.com/user-attachments/assets/0a90cb30-3375-48a9-a3ca-df7d593eac05" />
 
 ---------------------------------------
+You can see it appended in your table in ADT - Eclipse
 <img width="1892" height="532" alt="image" src="https://github.com/user-attachments/assets/a8f638cd-1de1-446c-ad18-d70323d84a83" />
 
