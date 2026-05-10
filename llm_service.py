@@ -13,27 +13,56 @@ client = OpenAI(
     base_url="https://openrouter.ai/api/v1"
 )
 
+MODELS = [
+    "openai/gpt-oss-120b:free",
+    "openrouter/free"
+]
+
 def analyze_incident(user_input):
 
-    response = client.chat.completions.create(
-        model="openai/gpt-3.5-turbo",
-        messages=[
-            {
-                "role": "system",
-                "content": SYSTEM_PROMPT
-            },
-            {
-                "role": "user",
-                "content": user_input
-            }
-        ],
-        temperature=0.2
-    )
+    last_error = None
 
-    text = response.choices[0].message.content
+    for model_name in MODELS:
 
-    # cleanup
-    text = text.replace("```json", "")
-    text = text.replace("```", "")
+        try:
 
-    return json.loads(text)
+            response = client.chat.completions.create(
+                model=model_name,
+                messages=[
+                    {
+                        "role": "system",
+                        "content": SYSTEM_PROMPT
+                    },
+                    {
+                        "role": "user",
+                        "content": user_input
+                    }
+                ],
+                temperature=0.1
+            )
+
+            text = response.choices[0].message.content
+
+            text = text.replace("```json", "")
+            text = text.replace("```", "")
+
+            return json.loads(text)
+
+        except Exception as e:
+            last_error = str(e)
+
+    return {
+        "business_summary": "LLM processing failed",
+        "technical_summary": last_error,
+        "sap_module": "UNKNOWN",
+        "incident_type": "UNKNOWN",
+        "priority": "Low",
+        "business_impact": "Unable to analyze incident",
+        "probable_root_cause": "LLM provider failure",
+        "suggested_team": "UNKNOWN",
+        "sap_object": "UNKNOWN",
+        "keywords": [],
+        "reproducibility": "Unknown",
+        "suggested_debugging_steps": [],
+        "confidence_score": 0.0
+    }

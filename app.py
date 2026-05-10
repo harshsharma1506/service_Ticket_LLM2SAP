@@ -10,7 +10,7 @@ st.set_page_config(
 st.title("SAP Incident AI")
 
 st.write(
-    "Convert raw incidents into structured SAP-ready incident records."
+    "Convert raw incidents into structured SAP-ready enterprise incident records."
 )
 
 incident_text = st.text_area(
@@ -22,46 +22,72 @@ if st.button("Analyze Incident"):
 
     if not incident_text.strip():
         st.warning("Please enter an incident.")
+
     else:
 
-        with st.spinner("Analyzing..."):
+        with st.spinner("Analyzing incident..."):
 
-            try:
+            result = analyze_incident(incident_text)
 
-                result = analyze_incident(incident_text)
+            st.success("Analysis complete")
 
-                st.success("Analysis complete")
+            st.subheader("Business Summary")
+            st.write(result.get("business_summary", "N/A"))
 
-                col1, col2 = st.columns(2)
+            st.subheader("Technical Summary")
+            st.write(result.get("technical_summary", "N/A"))
 
-                with col1:
-                    st.subheader("Business Summary")
-                    st.write(result["business_summary"])
+            col1, col2 = st.columns(2)
 
-                    st.subheader("Module")
-                    st.write(result["module"])
+            with col1:
 
-                    st.subheader("Priority")
-                    st.write(result["priority"])
+                st.subheader("SAP Module")
+                st.write(result.get("sap_module", "UNKNOWN"))
 
-                    st.subheader("Reproducibility")
-                    st.write(result["reproducibility"])
+                st.subheader("Incident Type")
+                st.write(result.get("incident_type", "UNKNOWN"))
 
-                with col2:
-                    st.subheader("Technical Summary")
-                    st.write(result["technical_summary"])
+                st.subheader("Priority")
+                st.write(result.get("priority", "UNKNOWN"))
 
-                    st.subheader("Probable Root Cause")
-                    st.write(result["probable_root_cause"])
+                st.subheader("Reproducibility")
+                st.write(result.get("reproducibility", "Unknown"))
 
-                    st.subheader("Suggested Team")
-                    st.write(result["suggested_team"])
+            with col2:
 
-                st.subheader("Keywords")
-                st.write(result["keywords"])
+                st.subheader("Business Impact")
+                st.write(result.get("business_impact", "N/A"))
 
-                st.subheader("Raw JSON")
-                st.json(result)
+                st.subheader("Probable Root Cause")
+                st.write(result.get("probable_root_cause", "N/A"))
 
-            except Exception as e:
-                st.error(str(e))
+                st.subheader("Suggested Team")
+                st.write(result.get("suggested_team", "UNKNOWN"))
+
+                st.subheader("SAP Object")
+                st.write(result.get("sap_object", "UNKNOWN"))
+
+            st.subheader("Keywords")
+            st.write(result.get("keywords", []))
+
+            st.subheader("Suggested Debugging Steps")
+
+            debugging_steps = result.get(
+                "suggested_debugging_steps",
+                []
+            )
+
+            for step in debugging_steps:
+                st.write(f"- {step}")
+
+            st.subheader("Confidence Score")
+
+            confidence = result.get(
+                "confidence_score",
+                0.0
+            )
+
+            st.progress(confidence)
+
+            st.subheader("Raw JSON")
+            st.json(result)
