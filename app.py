@@ -1,5 +1,5 @@
 import streamlit as st
-
+from sap_service import save_incident
 from llm_service import analyze_incident
 
 st.set_page_config(
@@ -91,3 +91,12 @@ if st.button("Analyze Incident"):
 
             st.subheader("Raw JSON")
             st.json(result)
+            result["raw_input"] = incident_text
+
+            status_code, sap_response = save_incident(result)
+
+            st.subheader("SAP Persistence")
+
+            st.write(f"Status Code: {status_code}")
+
+            st.code(sap_response)
